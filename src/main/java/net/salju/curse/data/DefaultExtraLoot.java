@@ -21,7 +21,7 @@ final class DefaultExtraLoot {
             extra(EntityType.HUSK, Items.SAND),
             extra(EntityType.SKELETON, Items.ARROW),
             extra(EntityType.STRAY, Items.ARROW),
-            extra(EntityType.CREEPER, Items.GUNPOWDER),
+            extra(EntityType.CREEPER, Items.TNT),
             extra(EntityType.SPIDER, Items.FERMENTED_SPIDER_EYE),
             extra(EntityType.CAVE_SPIDER, Items.FERMENTED_SPIDER_EYE),
             rare(EntityType.ENDERMAN, Items.ENDER_EYE),
