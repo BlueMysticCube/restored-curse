@@ -1,7 +1,8 @@
     {
   "replace": false,
   "values": [
-    "minecraft:wolf",
-    "minecraft:bee"
+    "minecraft:iron_golem",
+    "minecraft:snow_golem",
+    "guardvillagers:guard"
   ]
 }
