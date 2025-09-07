@@ -8,9 +8,7 @@ package net.salju.curse.events;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
@@ -18,14 +16,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
@@ -37,7 +30,11 @@ import net.salju.curse.CurseManager;
 import net.salju.curse.gui.CurseGuiMenu;
 import net.salju.curse.gui.CurseGuiScreen;
 import net.salju.curse.init.CursedConfig;
+import net.salju.curse.init.CursedGameRules;
 import net.salju.curse.init.CursedTags;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EventBusSubscriber
 public final class CurseEvents {
@@ -107,14 +104,50 @@ public final class CurseEvents {
     }
 
     private static void executeAngryEffect(Player player) {
+        var gameRules = player.level().getGameRules();
+
+        List<Mob> attackCandidates = new ArrayList<>();
+        List<Mob> targetMigrationCandidates = new ArrayList<>();
         for(Mob mob : player.level().getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(ANGRY_RADIUS))) {
-            if (willBeUpsetByPlayer(mob, player)) {
+            if (canGetUpsetByPlayer(mob, player)) {
+                if (mob.getTarget() == null) {
+                    attackCandidates.add(mob);
+                } else {
+                    if (!CurseManager.isCursed(mob.getTarget())) {
+                        targetMigrationCandidates.add(mob);
+                    }
+                }
+            }
+        }
+
+        if (player.getRandom().nextDouble() < /*CursedConfig.ATTACK_CHANCE.get()*/gameRules.getInt(CursedGameRules.ATTACK_CHANCE) / 1000.0) {
+            // neutral mobs attack the player now
+            int count = (int) Math.ceil(/*CursedConfig.ATTACK_MOB_COUNT.get()*/gameRules.getInt(CursedGameRules.ATTACK_MOB_COUNT)/1000.0 * attackCandidates.size());
+            for (Mob mob : chooseRandomEntities(player.getRandom(), count, attackCandidates)) {
+                mob.setTarget(player);
+            }
+        }
+        if (player.getRandom().nextDouble() < /*CursedConfig.TARGET_MIGRATION_CHANCE.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_CHANCE) / 1000.0) {
+            // neutral mobs attack the player now
+            int count = (int) Math.ceil(/*CursedConfig.TARGET_MIGRATION_COUNT.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_COUNT)/1000.0 * targetMigrationCandidates.size());
+            for (Mob mob : chooseRandomEntities(player.getRandom(), count, attackCandidates)) {
                 mob.setTarget(player);
             }
         }
     }
 
-    private static boolean willBeUpsetByPlayer(Mob mob, Player player) {
+    private static List<Mob> chooseRandomEntities(RandomSource random, int maxCount, List<Mob> originalList) {
+        List<Mob> output = new ArrayList<>();
+        List<Mob> copy = new ArrayList<>(originalList);
+        while (output.size() < maxCount && !copy.isEmpty()) {
+            int randomIndex = random.nextIntBetweenInclusive(0, copy.size() - 1);
+            output.add(copy.get(randomIndex));
+            copy.remove(randomIndex);
+        }
+        return output;
+    }
+
+    private static boolean canGetUpsetByPlayer(Mob mob, Player player) {
         if (mob instanceof IronGolem ironGolem) {
             if (ironGolem.isPlayerCreated()) {
                 return false;
@@ -127,7 +160,6 @@ public final class CurseEvents {
         }
 
         return !mob.getType().is(CursedTags.NOT_ANGRY)
-                && mob.getTarget() == null
                 && (player.hasLineOfSight(mob) || player.distanceTo(mob) <= FORCED_ANGER_DISTANCE);
     }
 

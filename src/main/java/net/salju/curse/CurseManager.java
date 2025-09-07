@@ -5,6 +5,7 @@
 
 package net.salju.curse;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -19,6 +20,13 @@ public class CurseManager {
 
     public static boolean isCursed(Player target) {
         return target.getPersistentData().getBoolean(IS_CURSED_KEY);
+    }
+
+    public static boolean isCursed(Entity target) {
+        if (target instanceof Player player) {
+            return isCursed(player);
+        }
+        return false;
     }
 
     public static void setCursed(Player player, boolean check) {
