@@ -28,8 +28,6 @@ public class CurseMod {
         ModLoadingContext.get().registerConfig(Type.COMMON, CursedConfig.CONFIG, CONFIG_FILE_NAME);
         bus.addListener(CursedPacketHandler::registerMessages);
 
-        CursedGameRules.init();
-
         // datagen
         CursedLootModifiers.LOOT_MODIFIERS.register(bus);
         bus.addListener(CursedDataGen::register);

@@ -28,7 +28,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.salju.curse.CurseManager;
 import net.salju.curse.gui.CurseGuiMenu;
 import net.salju.curse.init.CursedConfig;
-import net.salju.curse.init.CursedGameRules;
 import net.salju.curse.init.CursedTags;
 
 import java.util.ArrayList;
@@ -102,8 +101,6 @@ public final class CurseEvents {
     }
 
     private static void executeAngryEffect(Player player) {
-        var gameRules = player.level().getGameRules();
-
         List<Mob> attackCandidates = new ArrayList<>();
         List<Mob> targetMigrationCandidates = new ArrayList<>();
         for(Mob mob : player.level().getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(ANGRY_RADIUS))) {
@@ -118,22 +115,16 @@ public final class CurseEvents {
             }
         }
 
-        if (
-                !attackCandidates.isEmpty()
-                        && player.getRandom().nextDouble() < /*CursedConfig.ATTACK_CHANCE.get()*/gameRules.getInt(CursedGameRules.ATTACK_CHANCE) / 1000.0
-        ) {
+        if (!attackCandidates.isEmpty() && player.getRandom().nextDouble() < CursedConfig.ATTACK_CHANCE.get()) {
             // neutral mobs attack the player now
-            int count = (int) Math.ceil(/*CursedConfig.ATTACK_MOB_COUNT.get()*/gameRules.getInt(CursedGameRules.ATTACK_MOB_COUNT)/1000.0 * attackCandidates.size());
+            int count = (int) Math.ceil(CursedConfig.ATTACK_MOB_COUNT.get() * attackCandidates.size());
             for (Mob mob : chooseRandomEntities(player.getRandom(), count, attackCandidates)) {
                 mob.setTarget(player);
             }
         }
-        if (
-                !targetMigrationCandidates.isEmpty()
-                        && player.getRandom().nextDouble() < /*CursedConfig.TARGET_MIGRATION_CHANCE.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_CHANCE) / 1000.0
-        ) {
+        if (!targetMigrationCandidates.isEmpty() && player.getRandom().nextDouble() < CursedConfig.TARGET_MIGRATION_CHANCE.get()) {
             // neutral mobs attack the player now
-            int count = (int) Math.ceil(/*CursedConfig.TARGET_MIGRATION_COUNT.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_COUNT)/1000.0 * targetMigrationCandidates.size());
+            int count = (int) Math.ceil(CursedConfig.TARGET_MIGRATION_COUNT.get() * targetMigrationCandidates.size());
             for (Mob mob : chooseRandomEntities(player.getRandom(), count, targetMigrationCandidates)) {
                 mob.setTarget(player);
             }

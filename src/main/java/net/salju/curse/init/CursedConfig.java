@@ -32,10 +32,10 @@ public class CursedConfig {
         KNOCK = BUILDER.comment("How much knockback the player takes as a percent.").defineInRange("Knockback", 200, 100, Integer.MAX_VALUE);
         FIRE = BUILDER.comment("Should fire last forever on the player until doused manually?").define("Burns", true);
         ANGRY = BUILDER.comment("Should neutral mobs be hostile to the player?").define("Angry", true);
-        ATTACK_CHANCE = BUILDER.comment("The chance per tick, that mobs around a cursed player get angry").defineInRange("Attack Chance", 0.025,0, 1);
+        ATTACK_CHANCE = BUILDER.comment("The chance per tick, that mobs around a cursed player get angry").defineInRange("Attack Chance", 0.005,0, 1);
         ATTACK_MOB_COUNT = BUILDER.comment("How many mobs get angry at a cursed player at once, as a proportion of all mobs in the radius (~28m").defineInRange("Attack Count", 0.05, 0, 1);
-        TARGET_MIGRATION_CHANCE = BUILDER.comment("The chance per tick, that mobs around a cursed player change their target to the cursed soul").defineInRange("Target Migration Chance", 0.5, 0, 1);
-        TARGET_MIGRATION_COUNT = BUILDER.comment("How many mobs change their target to a cursed player at once, as a proportion of all mobs in the radius (~28m)").defineInRange("Target Migration Count", 0.1, 0, 1);
+        TARGET_MIGRATION_CHANCE = BUILDER.comment("The chance per tick, that mobs around a cursed player change their target to the cursed soul").defineInRange("Target Migration Chance", 0.025, 0, 1);
+        TARGET_MIGRATION_COUNT = BUILDER.comment("How many mobs change their target to a cursed player at once, as a proportion of all mobs in the radius (~28m)").defineInRange("Target Migration Count", 0.3, 0, 1);
         SLEEP = BUILDER.comment("Should the player be unable go to sleep?").define("Insomnia", true);
         BUILDER.pop();
         BUILDER.push("Benefits");
