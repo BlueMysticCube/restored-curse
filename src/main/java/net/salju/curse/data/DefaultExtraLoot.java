@@ -16,7 +16,7 @@ final class DefaultExtraLoot {
     static final List<ExtraDropDefinition> DEFAULT_EXTRA_DROPS = List.of(
             extra(EntityType.COW, Items.LEATHER),
             extra(EntityType.CHICKEN, Items.FEATHER),
-            extra(EntityType.ZOMBIE, Items.DIAMOND),
+            rare(EntityType.ZOMBIE, Items.DIAMOND),
             extra(EntityType.DROWNED, Items.CLAY_BALL),
             extra(EntityType.HUSK, Items.SAND),
             extra(EntityType.SKELETON, Items.ARROW),
