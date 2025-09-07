@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
@@ -28,7 +27,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.salju.curse.CurseManager;
 import net.salju.curse.gui.CurseGuiMenu;
-import net.salju.curse.gui.CurseGuiScreen;
 import net.salju.curse.init.CursedConfig;
 import net.salju.curse.init.CursedGameRules;
 import net.salju.curse.init.CursedTags;
@@ -184,7 +182,7 @@ public final class CurseEvents {
             if (shouldShowGui(serverPlayer)) {
                 serverPlayer.openMenu(new SimpleMenuProvider(
                         (containerId, playerInventory, player) -> new CurseGuiMenu(containerId, playerInventory),
-                        CurseGuiScreen.TITLE_TEXT
+                        CurseGuiMenu.TITLE_TEXT
                 ));
             }
         }

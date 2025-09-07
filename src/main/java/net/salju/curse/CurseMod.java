@@ -11,11 +11,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.salju.curse.init.CursedConfig;
-import net.salju.curse.init.CursedDataGen;
-import net.salju.curse.init.CursedLootConditions;
-import net.salju.curse.init.CursedLootModifiers;
-import net.salju.curse.init.CursedMenus;
+import net.salju.curse.init.*;
 import net.salju.curse.network.CursedPacketHandler;
 
 @Mod(CurseMod.MODID)
@@ -31,6 +27,8 @@ public class CurseMod {
         CursedLootConditions.LOOT_CONDITIONS.register(bus);
         ModLoadingContext.get().registerConfig(Type.COMMON, CursedConfig.CONFIG, CONFIG_FILE_NAME);
         bus.addListener(CursedPacketHandler::registerMessages);
+
+        CursedGameRules.init();
 
         // datagen
         CursedLootModifiers.LOOT_MODIFIERS.register(bus);

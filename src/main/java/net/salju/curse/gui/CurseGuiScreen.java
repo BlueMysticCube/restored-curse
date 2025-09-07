@@ -13,14 +13,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.salju.curse.CurseMod;
 import net.salju.curse.init.CursedConfig;
 import net.salju.curse.network.CursedMessage;
 import net.salju.curse.network.CursedPacketHandler;
 
+@OnlyIn(Dist.CLIENT)
 public class CurseGuiScreen extends AbstractContainerScreen<CurseGuiMenu> {
-
-    public static final Component TITLE_TEXT = Component.translatable("gui.curse.curse_gui.label_title");
 
     private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(CurseMod.MODID, "textures/screens/curse_gui.png");
     private static final Style RUNES = Style.EMPTY.withFont(ResourceLocation.withDefaultNamespace("alt"));
@@ -99,7 +100,7 @@ public class CurseGuiScreen extends AbstractContainerScreen<CurseGuiMenu> {
         graphics.drawString(this.font, RUNES_TEXT_ELEMENTS[2], 15, 147, TEXT_COLOR, false);
         graphics.drawString(this.font, RUNES_TEXT_ELEMENTS[3], 24, 156, TEXT_COLOR, false);
 
-        graphics.drawString(this.font, TITLE_TEXT, 31, 20, TEXT_COLOR, false);
+        graphics.drawString(this.font, CurseGuiMenu.TITLE_TEXT, 31, 20, TEXT_COLOR, false);
 
         if (CursedConfig.DEATH.get() > 100) {
             // make sure that the number does not overflow on the screen
