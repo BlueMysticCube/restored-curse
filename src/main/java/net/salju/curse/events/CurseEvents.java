@@ -118,17 +118,23 @@ public final class CurseEvents {
             }
         }
 
-        if (player.getRandom().nextDouble() < /*CursedConfig.ATTACK_CHANCE.get()*/gameRules.getInt(CursedGameRules.ATTACK_CHANCE) / 1000.0) {
+        if (
+                !attackCandidates.isEmpty()
+                        && player.getRandom().nextDouble() < /*CursedConfig.ATTACK_CHANCE.get()*/gameRules.getInt(CursedGameRules.ATTACK_CHANCE) / 1000.0
+        ) {
             // neutral mobs attack the player now
             int count = (int) Math.ceil(/*CursedConfig.ATTACK_MOB_COUNT.get()*/gameRules.getInt(CursedGameRules.ATTACK_MOB_COUNT)/1000.0 * attackCandidates.size());
             for (Mob mob : chooseRandomEntities(player.getRandom(), count, attackCandidates)) {
                 mob.setTarget(player);
             }
         }
-        if (player.getRandom().nextDouble() < /*CursedConfig.TARGET_MIGRATION_CHANCE.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_CHANCE) / 1000.0) {
+        if (
+                !targetMigrationCandidates.isEmpty()
+                        && player.getRandom().nextDouble() < /*CursedConfig.TARGET_MIGRATION_CHANCE.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_CHANCE) / 1000.0
+        ) {
             // neutral mobs attack the player now
             int count = (int) Math.ceil(/*CursedConfig.TARGET_MIGRATION_COUNT.get()*/gameRules.getInt(CursedGameRules.TARGET_MIGRATION_COUNT)/1000.0 * targetMigrationCandidates.size());
-            for (Mob mob : chooseRandomEntities(player.getRandom(), count, attackCandidates)) {
+            for (Mob mob : chooseRandomEntities(player.getRandom(), count, targetMigrationCandidates)) {
                 mob.setTarget(player);
             }
         }
