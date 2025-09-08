@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.salju.curse.CurseManager;
 import net.salju.curse.gui.CurseGuiMenu;
 import net.salju.curse.init.CursedConfig;
-import net.salju.curse.init.CursedTags;
+import net.salju.curse.CursedTags;
 
 import java.util.ArrayList;
 import java.util.List;
